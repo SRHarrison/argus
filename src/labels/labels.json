@@ -1,0 +1,14 @@
+{
+  "app.title": "Argus",
+  "component.map.nav": "Map",
+  "component.map.title": "Map",
+  "component.map.metaDescription": "Map component",
+  "component.station.nav": "Station",
+  "component.station.title": "Station",
+  "component.station.metaDescription": "Station component",
+  "component.notFound.title": "Page not found",
+  "component.notFound.metaDescription": "Page not found",
+  "screenreader.navActive": "Currently selected page",
+  "screenreader.navigationOccured": "Navigation occured",
+  "screenreader.skipToContent": "Skip to main content"
+}
