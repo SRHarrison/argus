@@ -10,6 +10,29 @@ export const LOAD_ERROR = 'action.LOAD_ERROR';
 export const DATA = {
 };
 
+export const NAVITEMS = [
+  {
+    path: '',
+    label: 'component.map.nav',
+    group: 'primary',
+  },
+  {
+    path: 'glossary',
+    label: 'component.glossary.nav',
+    group: 'primary',
+  },
+  {
+    path: 'about',
+    label: 'component.about.nav',
+    group: 'secondary',
+  },
+  {
+    path: 'credits',
+    label: 'component.credits.nav',
+    group: 'secondary',
+  },
+];
+
 export const BREAKPOINTS = {
   SMALL: 0,
   MEDIUM: 1,
@@ -17,5 +40,6 @@ export const BREAKPOINTS = {
 
 const constants = {
   BREAKPOINTS,
+  NAVITEMS,
 };
 export default constants;

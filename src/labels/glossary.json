@@ -1,0 +1,12 @@
+{
+  "term": {
+    "name": "Term",
+    "hint": "about this term",
+    "full": "more about this term in more detail"
+  },
+  "another_term": {
+    "name": "Another term",
+    "hint": "about this other term",
+    "full": "much more about this other term in more detail"
+  }
+}

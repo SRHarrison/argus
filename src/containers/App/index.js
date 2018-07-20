@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LiveAnnouncer, LiveMessage } from 'react-aria-live';
+import styled from 'styled-components';
 
 import getLabel from 'utils/get-label';
 
@@ -10,8 +11,16 @@ import Header from 'components/Header';
 import SkipContent from 'styles/SkipContent';
 
 import { selectAnnouncement } from 'containers/App/selectors';
-import { DATA } from './constants';
+import { NAVITEMS, DATA } from './constants';
 import { loadData } from './actions';
+
+const Content = styled.div`
+  position: absolute;
+  left: 80px;
+  top: 0;
+  bottom: 0;
+  right: 0;  
+`;
 
 /**
  *
@@ -59,14 +68,16 @@ class App extends React.Component {
           >
             <Label id="screenreader.skipToContent" />
           </SkipContent>
-          <Header />
+          <Header navItems={NAVITEMS} />
           <main
             role="main"
             ref={this.main}
             tabIndex="-1"
             aria-labelledby="pageTitle"
           >
-            { component }
+            <Content>
+              { component }
+            </Content>
           </main>
         </LiveAnnouncer>
       </div>
@@ -77,7 +88,7 @@ class App extends React.Component {
 App.propTypes = {
   component: PropTypes.element.isRequired,
   announcement: PropTypes.string,
-  loadData: PropTypes.func.isRequired,
+  // loadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
