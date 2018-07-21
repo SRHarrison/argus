@@ -24,14 +24,32 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 
 class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    const map = new mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/satellite-v9',
     });
   }
-  render() {
+  componentDidUpdate() {
     const { sites } = this.props;
 
+    const bounds = new mapboxgl.LngLatBounds();
+
+    sites.forEach((site) => {
+      const coordinates = [parseFloat(site.get('lon')), parseFloat(site.get('lat'))];
+      new mapboxgl.Marker()
+        .setLngLat(coordinates)
+        .addTo(this.map);
+      bounds.extend(coordinates);
+    });
+
+    this.map.fitBounds(bounds, {
+      padding: 80,
+    });
+  }
+  componentWillUnmount() {
+    this.map.remove();
+  }
+  render() {
     return (
       <div>
         <Helmet>
