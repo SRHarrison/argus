@@ -18,3 +18,21 @@ export const selectData = createSelector(
   (state, key) => key,
   (data, key) => data.get(key) && data.getIn([key, 'data'])
 );
+
+// sites
+export const selectSites = createSelector(
+  (state) => selectData(state, 'sites'),
+  (data) => data
+);
+
+// stations
+export const selectStations = createSelector(
+  (state) => selectData(state, 'stations'),
+  (data) => data
+);
+
+export const selectStationsBySiteID = createSelector(
+  selectStations,
+  (state, id) => id, // { key, value }
+  (data, id) => data && data.filter((item) => attributesEqual(item.get('siteID'), id))
+);

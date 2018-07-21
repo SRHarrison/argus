@@ -9,6 +9,8 @@ export const LOAD_ERROR = 'action.LOAD_ERROR';
 
 export const S3_URL = 'https://{bucket}.s3.amazonaws.com/';
 
+export const MAPBOX_TOKEN = 'pk.eyJ1IjoidG1mcm56IiwiYSI6ImNqanVycDc1dzlpYWYza3AxZnV1emt6aWIifQ.CZEH84wTME9YJ7NF7fKycw';
+
 export const DATA = {
   sites: {
     data: [],

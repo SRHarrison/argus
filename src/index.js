@@ -20,7 +20,7 @@ import { ThemeProvider } from 'styled-components';
 import configureStore from 'store';
 
 import App from 'containers/App';
-// import PageMap from 'containers/PageMap';
+import PageMap from 'containers/PageMap';
 import PageStation from 'containers/PageStation';
 import PageHTML from 'containers/PageHTML';
 import PageGlossary from 'containers/PageGlossary';
@@ -46,7 +46,7 @@ const store = configureStore();
 
 // map hash path to react component
 const pathComponentMap = {
-  '': <PageHTML page="map" html={intro} />,
+  '': <PageMap page="map" html={intro} />,
   glossary: <PageGlossary terms={glossary} />,
   station: <PageStation />,
   about: <PageHTML page="about" html={about} />,

@@ -6,6 +6,8 @@ injectGlobal`
   ${styledNormalize};
 
   @import url('https://fonts.googleapis.com/css?family=Barlow:300,400,600,700');
+  @import url('https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css');
+
   body {
     height: 100%;
     width: 100%;
