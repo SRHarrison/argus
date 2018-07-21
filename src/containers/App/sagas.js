@@ -1,12 +1,13 @@
 import { call, takeEvery, select, put } from 'redux-saga/effects';
 import { route, getHash, getHashParameters } from 'react-hash-route';
+import { csvParse } from 'd3-dsv';
 import 'whatwg-fetch';
 
 import extend from 'lodash/extend';
 
 import { queryObject, queryString, routeString } from 'utils/queries';
 
-import { NAVIGATE, LOAD_DATA } from './constants';
+import { NAVIGATE, LOAD_DATA, S3_URL } from './constants';
 import { selectRequestedAt } from './selectors';
 import { dataRequested, loadError, dataLoaded } from './actions';
 
@@ -55,8 +56,13 @@ export function* loadDataSaga({ key, value }) {
           yield put(dataLoaded(key, responseBody));
         }
       }
-      if (value.source === 'api') {
-        // TODO: fetch data from data.govt api
+      if (value.source === 's3') {
+        const path = `${S3_URL.replace('{bucket}', value.bucket)}${value.path}${value.filename}`;
+        const response = yield fetch(path);
+        const responseBody = yield response.text();
+        if (responseBody) {
+          yield put(dataLoaded(key, csvParse(responseBody)));
+        }
       }
     } catch (err) {
       // Whoops Save error

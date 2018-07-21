@@ -19,7 +19,7 @@ const Content = styled.div`
   left: 80px;
   top: 0;
   bottom: 0;
-  right: 0;  
+  right: 0;
 `;
 
 /**
@@ -37,7 +37,7 @@ class App extends React.Component {
   }
   componentDidMount() {
     this.focus();
-    // this.props.loadData();
+    this.props.loadData();
   }
   componentDidUpdate() {
     this.focus();
@@ -88,7 +88,7 @@ class App extends React.Component {
 App.propTypes = {
   component: PropTypes.element.isRequired,
   announcement: PropTypes.string,
-  // loadData: PropTypes.func.isRequired,
+  loadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
