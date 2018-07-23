@@ -27,7 +27,7 @@ const Styled = styled.div`
   left: 0;
 `;
 
-class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class Map extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.map = L.map(
       'll-map',
@@ -99,7 +99,7 @@ class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-
   }
 }
 
-PageMap.propTypes = {
+Map.propTypes = {
   nav: PropTypes.func.isRequired,
   sites: PropTypes.object,
   stations: PropTypes.object,
@@ -117,4 +117,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageMap);
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
