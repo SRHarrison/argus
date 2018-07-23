@@ -20,13 +20,12 @@ import { ThemeProvider } from 'styled-components';
 import configureStore from 'store';
 
 import App from 'containers/App';
-import PageMap from 'containers/PageMap';
 import PageStation from 'containers/PageStation';
 import PageHTML from 'containers/PageHTML';
 import PageGlossary from 'containers/PageGlossary';
 import PageNotFound from 'containers/PageNotFound';
 
-import intro from 'pages/intro.md'; // loaded as HTML from markdown
+// import intro from 'pages/intro.md'; // loaded as HTML from markdown
 import about from 'pages/about.md'; // loaded as HTML from markdown
 import credits from 'pages/credits.md'; // loaded as HTML from markdown
 import glossary from 'labels/glossary.json';
@@ -46,7 +45,6 @@ const store = configureStore();
 
 // map hash path to react component
 const pathComponentMap = {
-  '': <PageMap page="map" html={intro} />,
   glossary: <PageGlossary terms={glossary} />,
   station: <PageStation />,
   about: <PageHTML page="about" html={about} />,
@@ -81,7 +79,7 @@ const render = (Component) => {
           }}
         >
           <Component
-            component={pathComponentMap[getHash() || ''] || pathComponentMap['not-found']}
+            component={pathComponentMap[getHash() || '']}
           />
         </ThemeProvider>
       </Provider>

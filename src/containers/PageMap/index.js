@@ -3,14 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import mapboxgl from 'mapbox-gl';
+import 'leaflet';
+import 'leaflet.markercluster';
 
 import getLabel from 'utils/get-label';
+import attributesEqual from 'utils/attributes-equal';
 
-import { selectSites } from 'containers/App/selectors';
+import { selectSites, selectStations } from 'containers/App/selectors';
 import { MAPBOX_TOKEN } from 'containers/App/constants';
+import { navigate } from 'containers/App/actions';
 
-const MapContainer = styled.div`
+const L = window.L;
+
+const FITBOUNDS_OPTIONS = {
+  padding: [120, 120],
+  animate: false,
+  duration: 0,
+};
+
+const Styled = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -20,38 +31,74 @@ const MapContainer = styled.div`
 
 const key = 'map';
 
-mapboxgl.accessToken = MAPBOX_TOKEN;
-
 class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/satellite-v9',
+    this.map = L.map(
+      'll-map',
+      {
+        center: [0, 0],
+        zoom: 2,
+        layers: [
+          L.tileLayer(
+            'https://api.mapbox.com/v4/{id}/{z}/{x}/{y}.png64?access_token={accessToken}',
+            {
+              id: 'mapbox.satellite',
+              accessToken: MAPBOX_TOKEN,
+            },
+          ),
+        ],
+      },
+    );
+    // init marker layer
+    this.markers = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: false,
+      animate: false,
+    })
+    .on('clusterclick', (cluster) => {
+      cluster.layer.zoomToBounds(FITBOUNDS_OPTIONS);
     });
   }
-  componentDidUpdate() {
+
+  componentDidUpdate(nextProps) {
+    // add markers
     const { sites } = this.props;
+    if (sites && sites.size && sites !== nextProps.sites) this.addSites(this.props.sites);
+  }
 
-    const bounds = new mapboxgl.LngLatBounds();
+  onMarkerClick(e, site) {
+    const station = this.props.stations.find((item) => attributesEqual(item.get('siteID'), site.get('id')));
+    this.props.nav({
+      path: 'station',
+      query: {
+        id: station.get('id'),
+      },
+    });
+  }
 
+  addSites(sites) {
+    let bounds = L.latLngBounds();
+    // add sites to map and remember bounds
     sites.forEach((site) => {
-      const coordinates = [parseFloat(site.get('lon')), parseFloat(site.get('lat'))];
-      new mapboxgl.Marker()
-        .setLngLat(coordinates)
-        .addTo(this.map);
-      bounds.extend(coordinates);
+      const coordinates = [parseFloat(site.get('lat')), parseFloat(site.get('lon'))];
+      bounds = bounds.extend(coordinates);
+      L.marker(
+        coordinates,
+        {
+          title: site.get('name'),
+        }
+      )
+      .on('click', (e) => this.onMarkerClick(e, site))
+      .addTo(this.markers);
     });
+    // pan/zoom map to sites
+    this.map.fitBounds(bounds, FITBOUNDS_OPTIONS);
+    this.markers.addTo(this.map);
+  }
 
-    this.map.fitBounds(bounds, {
-      padding: 80,
-    });
-  }
-  componentWillUnmount() {
-    this.map.remove();
-  }
   render() {
     return (
-      <div>
+      <Styled id="ll-map" >
         <Helmet>
           <title>{getLabel(`component.${key}.title`)}</title>
           <meta
@@ -59,20 +106,27 @@ class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-
             content={getLabel(`component.${key}.metaDescription`)}
           />
         </Helmet>
-        <MapContainer innerRef={(el) => { this.mapContainer = el; }} />
-      </div>
+      </Styled>
     );
   }
 }
 
 PageMap.propTypes = {
+  nav: PropTypes.func.isRequired,
   sites: PropTypes.object,
+  stations: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   sites: selectSites(state),
+  stations: selectStations(state),
 });
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch) => ({
+  // navigate to location
+  nav: (location, args) => {
+    dispatch(navigate(location, args));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageMap);

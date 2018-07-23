@@ -32,8 +32,8 @@ class PageGlossary extends React.PureComponent { // eslint-disable-line react/pr
           {
             Object.keys(terms).map((termId) =>
               (
-                <div>
-                  <h3 key={termId}>{terms[termId].name}</h3>
+                <div key={termId}>
+                  <h3>{terms[termId].name}</h3>
                   <p>
                     {terms[termId].full}
                   </p>

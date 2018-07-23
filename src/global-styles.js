@@ -6,7 +6,9 @@ injectGlobal`
   ${styledNormalize};
 
   @import url('https://fonts.googleapis.com/css?family=Barlow:300,400,600,700');
-  @import url('https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css');
+  @import url('https://unpkg.com/leaflet@1.3.3/dist/leaflet.css');
+  @import url('https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css');
+  @import url('https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css');
 
   body {
     height: 100%;
