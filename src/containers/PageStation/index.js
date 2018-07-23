@@ -40,6 +40,10 @@ const ImageButton = styled.button`
   `}
 `;
 
+const Styled = styled.div`
+  padding: 0 10px;
+`;
+
 class PageStation extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   stationChange(e) {
     this.props.nav({ query: { id: e.target.value } });
@@ -69,7 +73,7 @@ class PageStation extends React.PureComponent { // eslint-disable-line react/pre
     }
 
     return (
-      <div>
+      <Styled>
         <Helmet>
           <title>{getLabel(`component.${key}.title`)}</title>
           <meta
@@ -166,7 +170,7 @@ class PageStation extends React.PureComponent { // eslint-disable-line react/pre
             </h2>
           </Column>
         </Row>
-      </div>
+      </Styled>
     );
   }
 }
