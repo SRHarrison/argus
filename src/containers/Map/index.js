@@ -91,6 +91,10 @@ class Map extends React.PureComponent { // eslint-disable-line react/prefer-stat
           title: site.get('name'),
         }
       )
+      .bindTooltip(site.get('name'), {
+        direction: 'top',
+        offset: [0, -15],
+      })
       .on('click', (e) => this.onMarkerClick(e, site))
       .addTo(this.markers);
     });
