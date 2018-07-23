@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LiveAnnouncer, LiveMessage } from 'react-aria-live';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 import getLabel from 'utils/get-label';
 
 import PageMap from 'containers/PageMap';
 import Label from 'components/Label';
 import Header from 'components/Header';
+import Intro from 'components/Intro';
 import SkipContent from 'styles/SkipContent';
 
 import intro from 'pages/intro.md'; // loaded as HTML from markdown
@@ -29,28 +31,6 @@ const ContentOverlay = styled(Content)`
   z-index: 1002;
   background: #fff;
 `;
-
-const Intro = styled.div`
-  z-index: 1001;
-  text-align: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  transform: translate(50%,0);
-`;
-
-const IntroContent = styled.div`
-  background-color: rgba(255,255,255,0.8);
-  width: 400px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  padding: 20px;
-  transform: translate(-50%, 0);
-`;
-
 
 /**
  *
@@ -88,7 +68,6 @@ class App extends React.Component {
 
   render() {
     const { component, announcement } = this.props;
-    /* eslint-disable react/no-danger */
     return (
       <div
         tabIndex="-1"
@@ -104,6 +83,13 @@ class App extends React.Component {
             <Label id="screenreader.skipToContent" />
           </SkipContent>
           <Header navItems={NAVITEMS} />
+          <Helmet>
+            <title>{getLabel('app.title')}</title>
+            <meta
+              name="description"
+              content={getLabel('app.metaDescription')}
+            />
+          </Helmet>
           <main
             role="main"
             ref={this.main}
@@ -112,12 +98,7 @@ class App extends React.Component {
           >
             <Content>
               { this.state.intro &&
-                <Intro>
-                  <IntroContent>
-                    <span dangerouslySetInnerHTML={{ __html: intro }} />
-                    <button onClick={() => this.dismiss()} >Explore</button>
-                  </IntroContent>
-                </Intro>
+                <Intro dismiss={() => this.dismiss()} html={intro} />
               }
               <PageMap />
             </Content>
@@ -130,7 +111,6 @@ class App extends React.Component {
         </LiveAnnouncer>
       </div>
     );
-    /* eslint-enable react/no-danger */
   }
 }
 

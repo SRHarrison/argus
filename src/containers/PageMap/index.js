@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import 'leaflet';
 import 'leaflet.markercluster';
 
-import getLabel from 'utils/get-label';
 import attributesEqual from 'utils/attributes-equal';
 
 import { selectSites, selectStations } from 'containers/App/selectors';
@@ -28,8 +26,6 @@ const Styled = styled.div`
   right: 0;
   left: 0;
 `;
-
-const key = 'map';
 
 class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
@@ -98,15 +94,7 @@ class PageMap extends React.PureComponent { // eslint-disable-line react/prefer-
 
   render() {
     return (
-      <Styled id="ll-map" >
-        <Helmet>
-          <title>{getLabel(`component.${key}.title`)}</title>
-          <meta
-            name="description"
-            content={getLabel(`component.${key}.metaDescription`)}
-          />
-        </Helmet>
-      </Styled>
+      <Styled id="ll-map" />
     );
   }
 }
