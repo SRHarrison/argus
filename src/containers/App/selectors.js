@@ -36,3 +36,18 @@ export const selectStationsBySiteID = createSelector(
   (state, id) => id, // { key, value }
   (data, id) => data && data.filter((item) => attributesEqual(item.get('siteID'), id))
 );
+
+export const selectStationIdFromLocation = createSelector(
+  selectLocation,
+  (location) => location.getIn(['query', 'id'])
+);
+
+export const selectImageTypeFromLocation = createSelector(
+  selectLocation,
+  (location) => location.getIn(['query', 'output'])
+);
+
+export const selectCameraFromLocation = createSelector(
+  selectLocation,
+  (location) => location.getIn(['query', 'view'])
+);

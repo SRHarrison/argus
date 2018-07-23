@@ -15,22 +15,31 @@ export const DATA = {
   sites: {
     data: [],
     requested: null,
-    source: 's3',
+    source: 'csv',
     bucket: 'argusdata',
-    path: '',
+    path: 'data/',
     type: 'csv',
     filename: 'sites.csv',
   },
   stations: {
     data: [],
     requested: null,
-    source: 's3',
+    source: 'csv',
     bucket: 'argusdata',
-    path: '',
+    path: 'data/',
     type: 'csv',
     filename: 'stations.csv',
   },
 };
+
+export const IMAGE_TYPES = [
+  'snapshot',
+  'timex',
+  'bright',
+  'dark',
+  'rundark',
+  'var',
+];
 
 export const NAVITEMS = [
   {

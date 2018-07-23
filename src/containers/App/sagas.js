@@ -22,7 +22,7 @@ export function* navigateSaga({ location, args }) {
 
   // default args
   const xArgs = extend({
-    remove: true,
+    remove: false,
   }, args || {});
 
   // update path: replace or keep if not provided
@@ -56,8 +56,10 @@ export function* loadDataSaga({ key, value }) {
           yield put(dataLoaded(key, responseBody));
         }
       }
-      if (value.source === 's3') {
-        const path = `${S3_URL.replace('{bucket}', value.bucket)}${value.path}${value.filename}`;
+      if (value.source === 's3' || value.source === 'csv') {
+        const path = value.source === 's3'
+          ? `${S3_URL.replace('{bucket}', value.bucket)}${value.path}${value.filename}`
+          : `${value.path}${value.filename}`;
         const response = yield fetch(path);
         const responseBody = yield response.text();
         if (responseBody) {

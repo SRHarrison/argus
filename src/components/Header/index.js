@@ -6,9 +6,7 @@ import Label from 'components/Label';
 
 import Menu from 'containers/Menu';
 
-import getLabel from 'utils/get-label';
-
-import reactLogo from 'assets/React-icon.png';
+// import reactLogo from 'assets/React-icon.png';
 
 const Styled = styled.header`
   width: 80px;
@@ -29,10 +27,10 @@ const Brand = styled.button`
   cursor:pointer;
 `;
 
-const Logo = styled.img`
-  display: block;
-  width: 80px;
-`;
+// const Logo = styled.img`
+//   display: block;
+//   width: 80px;
+// `;
 
 const Title = styled.div`
   text-transform: uppercase;
@@ -45,9 +43,8 @@ const Title = styled.div`
 const Header = ({ navItems, onBrandClick }) => (
   <Styled role="banner">
     <Brand onClick={onBrandClick}>
-      <Logo alt={getLabel('app.title')} src={reactLogo} role="presentation" />
       <Title>
-        <Label id="app.title" />
+        <Label id="component.header.brand" />
       </Title>
     </Brand>
     <Menu navItems={navItems} />
