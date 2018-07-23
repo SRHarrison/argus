@@ -7,7 +7,9 @@ import { Helmet } from 'react-helmet';
 
 import getLabel from 'utils/get-label';
 
-import PageMap from 'containers/PageMap';
+import { navigate } from 'containers/App/actions';
+
+import Map from 'containers/Map';
 import Label from 'components/Label';
 import Header from 'components/Header';
 import Intro from 'components/Intro';
@@ -44,6 +46,7 @@ class App extends React.Component {
     this.state = {
       windowWidth: window.innerWidth,
       intro: true,
+      updatedMap: Date.now(), // change will trigger map update
     };
   }
   componentDidMount() {
@@ -53,6 +56,17 @@ class App extends React.Component {
   componentDidUpdate() {
     this.focus();
   }
+
+  onDismiss(e) {
+    if (e) e.stopPropagation();
+    this.setState({ intro: false });
+  }
+
+  onBrandClick() {
+    this.setState({ intro: true, updatedMap: Date.now() });
+    this.props.onBrandClick();
+  }
+
   focus() {
     // Explicitly focus the app container
     // Note: we're accessing "current" to get the DOM node
@@ -61,9 +75,6 @@ class App extends React.Component {
 
   skipToContent() {
     this.main.current.focus();
-  }
-  dismiss() {
-    this.setState({ intro: false });
   }
 
   render() {
@@ -82,7 +93,7 @@ class App extends React.Component {
           >
             <Label id="screenreader.skipToContent" />
           </SkipContent>
-          <Header navItems={NAVITEMS} />
+          <Header navItems={NAVITEMS} onBrandClick={(e) => this.onBrandClick(e)} />
           <Helmet>
             <title>{getLabel('app.title')}</title>
             <meta
@@ -98,9 +109,9 @@ class App extends React.Component {
           >
             <Content>
               { this.state.intro &&
-                <Intro dismiss={() => this.dismiss()} html={intro} />
+                <Intro html={intro} onDismiss={(e) => this.onDismiss(e)} />
               }
-              <PageMap />
+              <Map updated={this.state.updatedMap} />
             </Content>
             { component &&
               <ContentOverlay>
@@ -118,6 +129,7 @@ App.propTypes = {
   component: PropTypes.element,
   announcement: PropTypes.string,
   loadData: PropTypes.func.isRequired,
+  onBrandClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -128,6 +140,9 @@ function mapDispatchToProps(dispatch) {
   return {
     loadData: () => {
       Object.keys(DATA).forEach((key) => dispatch(loadData(key, DATA[key])));
+    },
+    onBrandClick: () => {
+      dispatch(navigate(''));
     },
   };
 }

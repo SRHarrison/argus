@@ -24,6 +24,7 @@ const Link = styled.button`
   width: 100%;
   background-color: ${(props) => props.theme.colors.white};
   border: 0;
+  cursor:pointer;
   ${(props) => props.active && css`
     color: ${props.theme.colors.white};
     background-color: ${props.theme.colors.black};

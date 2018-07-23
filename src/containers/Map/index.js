@@ -58,8 +58,15 @@ class Map extends React.PureComponent { // eslint-disable-line react/prefer-stat
 
   componentDidUpdate(nextProps) {
     // add markers
-    const { sites } = this.props;
-    if (sites && sites.size && sites !== nextProps.sites) this.addSites(this.props.sites);
+    const { sites, updated } = this.props;
+    if (sites && sites.size) {
+      if (updated !== nextProps.updated) {
+        this.clearSites();
+      }
+      if (sites !== nextProps.sites || updated !== nextProps.updated) {
+        this.addSites(this.props.sites);
+      }
+    }
   }
 
   onMarkerClick(e, site) {
@@ -92,6 +99,10 @@ class Map extends React.PureComponent { // eslint-disable-line react/prefer-stat
     this.markers.addTo(this.map);
   }
 
+  clearSites() {
+    this.markers.clearLayers();
+  }
+
   render() {
     return (
       <Styled id="ll-map" />
@@ -103,6 +114,7 @@ Map.propTypes = {
   nav: PropTypes.func.isRequired,
   sites: PropTypes.object,
   stations: PropTypes.object,
+  updated: PropTypes.number, // change to force update
 };
 
 const mapStateToProps = (state) => ({

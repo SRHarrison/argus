@@ -11,7 +11,15 @@ const Styled = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-  transform: translate(50%,0);  
+`;
+
+const Dismiss = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.3);
 `;
 
 const IntroContent = styled.div`
@@ -20,16 +28,18 @@ const IntroContent = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
-  padding: 20px;
+  left: 50%;
   transform: translate(-50%, 0);
+  padding: 20px;
 `;
 
 /* eslint-disable react/no-danger */
-const Intro = ({ dismiss, html }) => (
-  <Styled role="banner">
+const Intro = ({ onDismiss, html }) => (
+  <Styled>
+    <Dismiss onClick={onDismiss} />
     <IntroContent>
       <span dangerouslySetInnerHTML={{ __html: html }} />
-      <button onClick={dismiss}>
+      <button onClick={onDismiss}>
         <Label id="component.intro.explore" />
       </button>
     </IntroContent>
@@ -38,7 +48,7 @@ const Intro = ({ dismiss, html }) => (
 /* eslint-enable react/no-danger */
 
 Intro.propTypes = {
-  dismiss: PropTypes.func.isRequired,
+  onDismiss: PropTypes.func.isRequired,
   html: PropTypes.string,
 };
 

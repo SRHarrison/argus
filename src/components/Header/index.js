@@ -21,8 +21,12 @@ const Styled = styled.header`
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
 `;
 
-const Brand = styled.div`
+const Brand = styled.button`
   text-align: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  cursor:pointer;
 `;
 
 const Logo = styled.img`
@@ -38,9 +42,9 @@ const Title = styled.div`
 `;
 
 
-const Header = ({ navItems }) => (
+const Header = ({ navItems, onBrandClick }) => (
   <Styled role="banner">
-    <Brand>
+    <Brand onClick={onBrandClick}>
       <Logo alt={getLabel('app.title')} src={reactLogo} role="presentation" />
       <Title>
         <Label id="app.title" />
@@ -52,6 +56,7 @@ const Header = ({ navItems }) => (
 
 Header.propTypes = {
   navItems: PropTypes.array,
+  onBrandClick: PropTypes.func,
 };
 
 
