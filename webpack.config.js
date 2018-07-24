@@ -32,6 +32,10 @@ const UglifyJsPluginConfig = new webpack.optimize.UglifyJsPlugin({
 
 const BundleAnalyzerPluginConfig = new BundleAnalyzerPlugin();
 
+const LodashModuleReplacementPluginConfig = new LodashModuleReplacementPlugin({
+  collections: true,
+});
+
 module.exports = {
   devServer: {
     host: 'localhost',
@@ -90,7 +94,7 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.join(__dirname, './dist'),
-    library: 'OGDD',
+    library: 'Argus',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
@@ -103,8 +107,8 @@ module.exports = {
   [
     HTMLWebpackPluginConfig,
     DefinePluginConfig,
+    LodashModuleReplacementPluginConfig,
     UglifyJsPluginConfig,
     BundleAnalyzerPluginConfig,
-    new LodashModuleReplacementPlugin(),
   ],
 };
